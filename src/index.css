@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+/* Image styles */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Smooth transitions */
+@layer components {
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .btn-primary {
+    @apply px-6 py-2 bg-organic-600 text-white rounded-lg hover:bg-organic-700 transition-smooth;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-smooth;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md hover:shadow-lg transition-smooth p-4;
+  }
+
+  .product-image {
+    @apply w-full h-full object-cover;
+  }
+
+  .product-image-container {
+    @apply bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden;
+  }
+}
+
+/* Loading state for images */
+.image-loading {
+  @apply animate-pulse bg-gray-300;
+}
+
+/* Image hover effects */
+img[alt]:hover {
+  filter: brightness(1.05);
+}
