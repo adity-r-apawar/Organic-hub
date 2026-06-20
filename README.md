@@ -322,3 +322,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 **Organic Hub** © 2024. All rights reserved.
 
 *Promoting Healthy Living Through Organic Products*
+
+Thank you 
+
