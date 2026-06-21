@@ -55,7 +55,7 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
                 <div className="flex-grow">
                   <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
                   <p className="text-gray-600 text-sm mb-2">{item.category}</p>
-                  <p className="text-organic-600 font-semibold">${item.price}</p>
+                  <p className="text-organic-600 font-semibold">₹{item.price}</p>
                 </div>
 
                 {/* Quantity Controls */}
@@ -78,7 +78,7 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
                 {/* Subtotal */}
                 <div className="text-right">
                   <p className="font-semibold text-lg mb-2">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </p>
                   <button
                     onClick={() => onRemove(item.id)}
@@ -111,11 +111,11 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
             <div className="space-y-3 mb-6 pb-6 border-b">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
-                <span className="font-medium">${subtotal.toFixed(2)}</span>
+                <span className="font-medium">₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax (10%)</span>
-                <span className="font-medium">${tax.toFixed(2)}</span>
+                <span className="font-medium">₹{tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
@@ -123,7 +123,7 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
                   {shipping === 0 ? (
                     <span className="text-green-600">FREE</span>
                   ) : (
-                    `$${shipping.toFixed(2)}`
+                    `₹${shipping.toFixed(2)}`
                   )}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
             <div className="mb-6 pb-6 border-b">
               <div className="flex justify-between">
                 <span className="text-lg font-bold">Total</span>
-                <span className="text-2xl font-bold text-organic-600">${total.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-organic-600">₹{total.toFixed(2)}</span>
               </div>
             </div>
 
@@ -158,7 +158,7 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
             <p className="text-xs text-gray-500 mt-4 text-center">
               {subtotal > 50 
                 ? '✓ Free shipping on this order'
-                : `Free shipping on orders over $50`
+                : `Free shipping on orders over ₹50`
               }
             </p>
           </div>

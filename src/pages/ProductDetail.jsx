@@ -1,14 +1,50 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { PRODUCTS } from '../utils/productData'
+import { fetchProduct, fetchProducts } from '../services/api'
 
 export default function ProductDetail({ onAddToCart }) {
   const { id } = useParams()
   const [quantity, setQuantity] = useState(1)
   const [imageError, setImageError] = useState(false)
+  const [product, setProduct] = useState(null)
+  const [relatedProducts, setRelatedProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const product = PRODUCTS.find(p => p.id === parseInt(id)) || PRODUCTS[0]
-  const relatedProducts = PRODUCTS.filter(p => p.category === product.category && p.id !== product.id).slice(0, 3)
+  useEffect(() => {
+    const loadProduct = async () => {
+      try {
+        const data = await fetchProduct(id)
+        setProduct(data)
+        if (data?.category) {
+          const items = await fetchProducts()
+          const related = items.filter(item => item.category === data.category && item.id !== data.id).slice(0, 3)
+          setRelatedProducts(related)
+        }
+      } catch (err) {
+        console.error('Unable to load product', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProduct()
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-12 text-center">
+        <p className="text-gray-600">Loading product details...</p>
+      </div>
+    )
+  }
+
+  if (!product) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-12 text-center">
+        <p className="text-gray-600">Product not found.</p>
+      </div>
+    )
+  }
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -57,7 +93,7 @@ export default function ProductDetail({ onAddToCart }) {
 
           {/* Price */}
           <div className="mb-6">
-            <span className="text-5xl font-bold text-organic-600">${product.price}</span>
+            <span className="text-5xl font-bold text-organic-600">₹{product.price}</span>
           </div>
 
           {/* Description */}
@@ -155,7 +191,7 @@ export default function ProductDetail({ onAddToCart }) {
                 />
               </div>
               <h3 className="font-semibold mb-2">{relatedProduct.name}</h3>
-              <p className="text-gray-600 text-sm mb-3">${relatedProduct.price}</p>
+              <p className="text-gray-600 text-sm mb-3">₹{relatedProduct.price}</p>
               <Link 
                 to={`/products/${relatedProduct.id}`}
                 className="text-organic-600 hover:underline text-sm font-medium"

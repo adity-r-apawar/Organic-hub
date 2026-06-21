@@ -29,7 +29,7 @@ export default function ProductCard({ product, onAddToCart }) {
 
       {/* Price and Rating */}
       <div className="flex justify-between items-center mb-4">
-        <span className="text-2xl font-bold text-organic-600">${product.price}</span>
+        <span className="text-2xl font-bold text-organic-600">₹{product.price}</span>
         <span className="text-yellow-500">★★★★★ ({product.reviews || 0})</span>
       </div>
 

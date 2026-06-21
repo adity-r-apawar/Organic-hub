@@ -131,7 +131,7 @@ export default function Orders({ user }) {
                         <span className="font-medium">Tracking #:</span> {order.trackingNumber}
                       </p>
                       <p className="text-gray-600">
-                        <span className="font-medium">Total Amount:</span> ${order.total}
+                        <span className="font-medium">Total Amount:</span> ₹{order.total}
                       </p>
                     </div>
                   </div>

@@ -20,8 +20,8 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-gray-400">
               <li><a href="#" className="hover:text-organic-400">About Us</a></li>
-              <li><a href="#" className="hover:text-organic-400">Products</a></li>
-              <li><a href="#" className="hover:text-organic-400">FAQs</a></li>
+              <li><a href="/products" className="hover:text-organic-400">Products</a></li>
+              <li><a href="/careers" className="hover:text-organic-400">Careers</a></li>
               <li><a href="#" className="hover:text-organic-400">Contact</a></li>
             </ul>
           </div>

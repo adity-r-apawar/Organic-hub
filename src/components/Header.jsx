@@ -17,6 +17,7 @@ export default function Header({ user, onLogout, cartCount }) {
           <nav className="hidden md:flex gap-8 items-center">
             <Link to="/" className="hover:text-organic-100 transition-smooth">Home</Link>
             <Link to="/products" className="hover:text-organic-100 transition-smooth">Products</Link>
+            <Link to="/careers" className="hover:text-organic-100 transition-smooth">Careers</Link>
             <Link to="/cart" className="hover:text-organic-100 transition-smooth flex items-center gap-1">
               🛒 Cart {cartCount > 0 && <span className="bg-red-500 px-2 py-1 rounded-full text-xs">{cartCount}</span>}
             </Link>
@@ -29,6 +30,15 @@ export default function Header({ user, onLogout, cartCount }) {
             {user ? (
               <div className="flex items-center gap-4">
                 <span className="text-sm">Welcome, {user.name}</span>
+                {user.role && (
+                  <span className={`text-xs font-semibold uppercase tracking-wide px-2 py-1 rounded ${
+                    user.role === 'admin' ? 'bg-white text-organic-600' :
+                    user.role === 'employee' ? 'bg-white text-green-600' :
+                    'bg-white text-gray-700'
+                  }`}>
+                    {user.role}
+                  </span>
+                )}
                 <button 
                   onClick={onLogout}
                   className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition-smooth"
@@ -58,6 +68,7 @@ export default function Header({ user, onLogout, cartCount }) {
           <nav className="md:hidden mt-4 pb-4 flex flex-col gap-3 border-t border-organic-500 pt-4">
             <Link to="/" className="hover:text-organic-100">Home</Link>
             <Link to="/products" className="hover:text-organic-100">Products</Link>
+            <Link to="/careers" className="hover:text-organic-100">Careers</Link>
             <Link to="/cart" className="hover:text-organic-100">Cart ({cartCount})</Link>
             {user && <Link to="/orders" className="hover:text-organic-100">My Orders</Link>}
             {user?.role === 'admin' && <Link to="/admin" className="hover:text-organic-100">Admin</Link>}

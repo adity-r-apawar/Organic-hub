@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { createOrder } from '../services/api'
 
 export default function Checkout({ cartItems, user }) {
   const [formData, setFormData] = useState({
@@ -27,9 +28,33 @@ export default function Checkout({ cartItems, user }) {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setOrderPlaced(true)
+    setOrderPlaced(false)
+
+    const orderPayload = {
+      userId: user?.id || 'guest',
+      userName: user?.name || `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      address: formData.address,
+      city: formData.city,
+      zipCode: formData.zipCode,
+      total,
+      items: cartItems.map(item => ({
+        productId: item.id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      }))
+    }
+
+    try {
+      await createOrder(orderPayload)
+      setOrderPlaced(true)
+    } catch (error) {
+      console.error('Order creation failed', error)
+      alert('Failed to place order. Please try again.')
+    }
   }
 
   if (orderPlaced) {
@@ -45,7 +70,7 @@ export default function Checkout({ cartItems, user }) {
             Order ID: <span className="font-mono font-bold">ORG-{Math.random().toString(36).substr(2, 9).toUpperCase()}</span>
           </p>
           <div className="space-y-2 mb-8 text-left max-w-md mx-auto bg-white p-6 rounded-lg">
-            <p><span className="font-medium">Total Amount:</span> ${total.toFixed(2)}</p>
+            <p><span className="font-medium">Total Amount:</span> ₹{total.toFixed(2)}</p>
             <p><span className="font-medium">Delivery Time:</span> 24-48 Hours</p>
             <p><span className="font-medium">Delivery Address:</span> {formData.address}, {formData.city}</p>
           </div>
@@ -209,7 +234,7 @@ export default function Checkout({ cartItems, user }) {
               type="submit"
               className="w-full btn-primary text-lg py-3 font-semibold"
             >
-              Place Order - ${total.toFixed(2)}
+              Place Order - ₹{total.toFixed(2)}
             </button>
           </form>
         </div>
@@ -226,7 +251,7 @@ export default function Checkout({ cartItems, user }) {
                   <span className="text-gray-600">
                     {item.name} x {item.quantity}
                   </span>
-                  <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -235,19 +260,19 @@ export default function Checkout({ cartItems, user }) {
             <div className="space-y-2 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal</span>
-                <span className="font-medium">${subtotal.toFixed(2)}</span>
+                <span className="font-medium">₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Tax</span>
-                <span className="font-medium">${tax.toFixed(2)}</span>
+                <span className="font-medium">₹{tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Shipping</span>
-                <span className="font-medium">${shipping.toFixed(2)}</span>
+                <span className="font-medium">₹{shipping.toFixed(2)}</span>
               </div>
               <div className="border-t pt-2 flex justify-between">
                 <span className="font-bold">Total</span>
-                <span className="text-2xl font-bold text-organic-600">${total.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-organic-600">₹{total.toFixed(2)}</span>
               </div>
             </div>
 
