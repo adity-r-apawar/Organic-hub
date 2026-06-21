@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { loginUser } from '../services/api'
 
 export default function Login({ onLogin }) {
   const navigate = useNavigate()
@@ -25,32 +26,15 @@ export default function Login({ onLogin }) {
     setError('')
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const user = await loginUser({
+        email: formData.email,
+        password: formData.password
+      })
 
-      if (formData.email === 'admin@organic.com' && formData.password === 'admin123') {
-        onLogin({
-          id: 1,
-          name: 'Admin User',
-          email: formData.email,
-          role: 'admin'
-        })
-      } else if (formData.email && formData.password) {
-        onLogin({
-          id: 2,
-          name: 'John Doe',
-          email: formData.email,
-          role: 'customer'
-        })
-      } else {
-        setError('Please enter both email and password')
-        setLoading(false)
-        return
-      }
-
+      onLogin(user)
       navigate('/')
     } catch (err) {
-      setError('Login failed. Please try again.')
+      setError(err.response?.data?.message || 'Login failed. Please try again.')
       setLoading(false)
     }
   }
@@ -123,16 +107,8 @@ export default function Login({ onLogin }) {
           </p>
         </div>
 
-        {/* Demo Credentials */}
         <div className="mt-8 pt-6 border-t">
-          <p className="text-xs text-gray-500 mb-3 font-semibold">Demo Credentials:</p>
-          <div className="space-y-2 text-xs text-gray-600 bg-gray-50 p-3 rounded">
-            <p><span className="font-medium">Admin:</span></p>
-            <p>Email: admin@organic.com</p>
-            <p>Password: admin123</p>
-            <p className="mt-3"><span className="font-medium">Customer:</span></p>
-            <p>Any email and password combination</p>
-          </div>
+          <p className="text-xs text-gray-500">Admin login is for authorized staff only. Use your registered account credentials.</p>
         </div>
       </div>
     </div>

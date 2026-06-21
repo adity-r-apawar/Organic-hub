@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { registerUser } from '../services/api'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -27,7 +28,6 @@ export default function Register() {
     setError('')
     setLoading(true)
 
-    // Validation
     if (!formData.fullName || !formData.email || !formData.phone || !formData.password) {
       setError('Please fill in all fields')
       setLoading(false)
@@ -47,14 +47,16 @@ export default function Register() {
     }
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Success - redirect to login
+      await registerUser({
+        fullName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        password: formData.password
+      })
       alert('Registration successful! Please log in with your credentials.')
       navigate('/login')
     } catch (err) {
-      setError('Registration failed. Please try again.')
+      setError(err.response?.data?.message || 'Registration failed. Please try again.')
       setLoading(false)
     }
   }

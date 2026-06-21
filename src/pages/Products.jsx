@@ -1,25 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '../components/ProductCard'
-import { PRODUCTS, getProductsByCategory, searchProducts } from '../utils/productData'
+import { fetchProducts } from '../services/api'
 
 export default function Products({ onAddToCart }) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const categories = ['All', 'Fruits', 'Vegetables']
 
-  // Filter products
-  let filteredProducts = PRODUCTS
-  
-  if (selectedCategory !== 'All') {
-    filteredProducts = filteredProducts.filter(p => p.category === selectedCategory)
-  }
-  
-  if (searchTerm) {
-    filteredProducts = filteredProducts.filter(p =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  }
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await fetchProducts()
+        setProducts(data)
+      } catch (err) {
+        console.error('Unable to load products', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [])
+
+  const filteredProducts = products
+    .filter(product => selectedCategory === 'All' || product.category === selectedCategory)
+    .filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()) || product.description.toLowerCase().includes(searchTerm.toLowerCase()))
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
