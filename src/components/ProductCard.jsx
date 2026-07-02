@@ -1,25 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ProductImageGallery from './ProductImageGallery'
 
 export default function ProductCard({ product, onAddToCart }) {
-  const [imageError, setImageError] = React.useState(false)
-
   return (
     <div className="card overflow-hidden">
-      {/* Product Image */}
-      <div className="bg-gray-200 h-48 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-        {!imageError ? (
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          <div className="flex items-center justify-center text-5xl bg-organic-100 w-full h-full">
-            {product.emoji || '🥬'}
-          </div>
-        )}
+      {/* Product Image Gallery */}
+      <div className="mb-4">
+        <ProductImageGallery product={product} />
       </div>
 
       {/* Product Info */}

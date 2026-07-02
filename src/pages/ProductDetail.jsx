@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchProduct, fetchProducts } from '../services/api'
+import ProductImageGallery from '../components/ProductImageGallery'
 
 export default function ProductDetail({ onAddToCart }) {
   const { id } = useParams()
   const [quantity, setQuantity] = useState(1)
-  const [imageError, setImageError] = useState(false)
   const [product, setProduct] = useState(null)
   const [relatedProducts, setRelatedProducts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -61,18 +61,9 @@ export default function ProductDetail({ onAddToCart }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8 rounded-lg shadow">
-        {/* Product Image */}
-        <div className="bg-gray-100 rounded-lg h-96 flex items-center justify-center overflow-hidden">
-          {!imageError ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover"
-              onError={() => setImageError(true)}
-            />
-          ) : (
-            <div className="text-9xl">{product.emoji}</div>
-          )}
+        {/* Product Image Gallery */}
+        <div>
+          <ProductImageGallery product={product} />
         </div>
 
         {/* Product Details */}

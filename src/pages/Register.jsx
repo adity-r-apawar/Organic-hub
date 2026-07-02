@@ -79,7 +79,7 @@ export default function Register() {
             <input
               type="text"
               name="fullName"
-              placeholder="John Doe"
+              placeholder="Aditya Pawar"
               value={formData.fullName}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-organic-500"
@@ -91,7 +91,7 @@ export default function Register() {
             <input
               type="email"
               name="email"
-              placeholder="you@example.com"
+              placeholder="adityapawar1882@gmail.com"
               value={formData.email}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-organic-500"
@@ -103,7 +103,8 @@ export default function Register() {
             <input
               type="tel"
               name="phone"
-              placeholder="+1 (555) 000-0000"
+              placeholder="+918010909241
+              "
               value={formData.phone}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-organic-500"
